@@ -1,0 +1,38 @@
+//import the socket module
+
+import socket
+
+//Get the address and port from the user
+
+SRV_ADDR = input("Type the server IP Address: ")
+SRV_PORT = int(input("Type the server port: "))
+
+//Create a new socket using the default family socket that uses TCP and the default socket type: connection-oriented
+
+s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+
+//Print a message showing the address of the connected client and then will start an infinte loop in order to get and print all messages received from it
+
+s.bind(SRV_ADDR,SRV_PORT)
+s.listen(1)
+print("Server started!! Waiting for the connections!!!")
+
+//Once the socket is configured, we print a message saying that the server is up. Then use accept function to accept incoming connections. This function returns 2 values
+//Connection is the socket object we use to send & receive data
+//Address contains the client address bound to the socket
+
+connection,address = s.accept()
+print("Client connected with address: ", address)
+
+//The 'bind' function binds the socket to provided address & port, while 'listen' function instructs the socket to listen for an incoming connection
+//The argument '1' specifies the maximum number of queued connection 
+
+while 1:
+data = connection.recv(1024)
+if not data : break
+connection.sendall(b'-- Message Received--\n")
+print(data.decode('utf-8'))
+connection.close
+
+
+
